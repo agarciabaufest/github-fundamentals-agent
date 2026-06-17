@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import apiRouter from './routes/api';
 
@@ -20,6 +20,11 @@ app.get('/', (_req, res) => {
     baseUrl,
     apiBase: `${baseUrl}/api`,
   });
+});
+
+app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(error);
+  res.status(500).json({ message: 'Internal server error' });
 });
 
 mongoose

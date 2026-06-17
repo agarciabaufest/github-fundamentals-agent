@@ -1,8 +1,8 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const workoutSchema = new Schema(
   {
-    user: { type: Types.ObjectId, ref: 'User', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, default: '' },
     suggestedForLevel: { type: String, enum: ['beginner', 'intermediate', 'advanced'], default: 'beginner' },

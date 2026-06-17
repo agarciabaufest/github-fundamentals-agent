@@ -1,10 +1,10 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const teamSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
-    owner: { type: Types.ObjectId, ref: 'User', required: true },
-    members: [{ type: Types.ObjectId, ref: 'User' }],
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
 );
