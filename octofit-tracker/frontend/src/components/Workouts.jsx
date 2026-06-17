@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchData } from '../api';
 
-const ENDPOINT = '/api/workouts/';
+const getApiUrl = () => {
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    const codespace = window.location.hostname.split('-')[0];
+    return `https://${codespace}-8000.app.github.dev/api/workouts/`;
+  }
+  return `http://localhost:8000/api/workouts/`;
+};
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -9,7 +15,7 @@ export default function Workouts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData(`http://${window.location.hostname}:8000${ENDPOINT}`)
+    fetchData(getApiUrl())
       .then(setWorkouts)
       .catch(setError)
       .finally(() => setLoading(false));
