@@ -1,10 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
+import { connectDatabase, databaseName } from './config/database';
 import apiRouter from './routes/api';
 
 const app = express();
 const port = 8000;
-const mongoUri = process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/octofit_db';
 
 const codespaceName = process.env.CODESPACE_NAME;
 const baseUrl = codespaceName
@@ -27,10 +26,9 @@ app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ message: 'Internal server error' });
 });
 
-mongoose
-  .connect(mongoUri, { dbName: 'octofit_db' })
+connectDatabase()
   .then(() => {
-    console.log('MongoDB connected to octofit_db');
+    console.log(`MongoDB connected to ${databaseName}`);
   })
   .catch((error: unknown) => {
     console.error('MongoDB connection error:', error);
