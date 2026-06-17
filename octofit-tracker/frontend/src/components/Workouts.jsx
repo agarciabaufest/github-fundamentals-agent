@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { apiEndpoints, fetchData } from '../api';
+import { fetchData } from '../api';
+
+const ENDPOINT = '/api/workouts/';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -7,7 +9,7 @@ export default function Workouts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData(apiEndpoints.workouts)
+    fetchData(`http://${window.location.hostname}:8000${ENDPOINT}`)
       .then(setWorkouts)
       .catch(setError)
       .finally(() => setLoading(false));

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { apiEndpoints, fetchData } from '../api';
+import { fetchData } from '../api';
+
+const ENDPOINT = '/api/leaderboard/';
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -7,7 +9,7 @@ export default function Leaderboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData(apiEndpoints.leaderboard)
+    fetchData(`http://${window.location.hostname}:8000${ENDPOINT}`)
       .then(setLeaderboard)
       .catch(setError)
       .finally(() => setLoading(false));

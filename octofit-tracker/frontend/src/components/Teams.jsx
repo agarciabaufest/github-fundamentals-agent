@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { apiEndpoints, fetchData } from '../api';
+import { fetchData } from '../api';
+
+const ENDPOINT = '/api/teams/';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -7,7 +9,7 @@ export default function Teams() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData(apiEndpoints.teams)
+    fetchData(`http://${window.location.hostname}:8000${ENDPOINT}`)
       .then(setTeams)
       .catch(setError)
       .finally(() => setLoading(false));

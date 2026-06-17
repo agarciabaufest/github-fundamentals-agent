@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { apiEndpoints, fetchData } from '../api';
+import { fetchData } from '../api';
+
+const ENDPOINT = '/api/users/';
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -7,7 +9,7 @@ export default function Users() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData(apiEndpoints.users)
+    fetchData(`http://${window.location.hostname}:8000${ENDPOINT}`)
       .then(setUsers)
       .catch(setError)
       .finally(() => setLoading(false));
