@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const database_1 = require("./config/database");
 const api_1 = __importDefault(require("./routes/api"));
@@ -12,6 +13,16 @@ const codespaceName = process.env.CODESPACE_NAME;
 const baseUrl = codespaceName
     ? `https://${codespaceName}-8000.app.github.dev`
     : 'http://localhost:8000';
+// CORS configuration for both local and Codespaces environments
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+if (codespaceName) {
+    allowedOrigins.push(`https://${codespaceName}-5173.app.github.dev`);
+}
+const corsOptions = {
+    origin: allowedOrigins,
+    credentials: true,
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 app.use('/api', api_1.default);
 app.get('/', (_req, res) => {
@@ -32,7 +43,7 @@ app.use((error, _req, res, _next) => {
     .catch((error) => {
     console.error('MongoDB connection error:', error);
 });
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`OctoFit backend listening on ${baseUrl}`);
 });
 exports.default = app;
